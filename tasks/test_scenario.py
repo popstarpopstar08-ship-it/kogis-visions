@@ -1,6 +1,6 @@
 from crewai import Task
 
-def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, operations, tech, rd, legal):
+def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, operations, tech, rd, legal, accountant):
     """
     TEST SCENARIO: First Monthly Cycle — Find & Validate Top 3 Products to Launch
 
@@ -440,7 +440,78 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input],
     )
 
-    # ── TASK 10: CEO makes the final call ─────────────────────────────────────
+    # ── TASK 10: Israeli Accountant — Tax & Compliance Setup ─────────────────
+    israeli_accounting = Task(
+        description="""
+        You are the Israeli CPA for Kogis Visions.
+        The company is about to launch its first 3 products and generate revenue.
+        The owner is an Israeli resident. All income will be taxed in Israel.
+
+        Provide a complete Israeli tax and accounting setup plan:
+
+        1. BUSINESS REGISTRATION (before first sale):
+           - What business structure to open: עוסק פטור or עוסק מורשה?
+             (Based on Finance Director's revenue projections — will we exceed ₪120,000?)
+           - Step-by-step: how to open a tax file at רשות המסים (online at עסקא)
+           - How to register with ביטוח לאומי
+           - Do we need a business bank account immediately? Which bank/service?
+
+        2. VAT ANALYSIS (מע"מ):
+           - Are sales to US/EU/international customers VAT-exempt (0%)? Confirm.
+           - At what revenue point does Israeli VAT registration become mandatory?
+           - Based on Finance Director's projections — when will we hit that threshold?
+           - What happens when we cross the threshold mid-year?
+
+        3. INCOME TAX PROJECTION (Year 1):
+           - Using Finance Director's conservative and optimistic projections:
+             Convert USD projections to NIS (use rate: 1 USD = 3.7 NIS)
+           - Calculate estimated annual taxable income (NIS)
+           - Calculate estimated income tax liability using 2024 brackets
+           - Calculate estimated National Insurance (ביטוח לאומי) liability
+           - Total tax bill estimate: conservative vs. optimistic scenario
+           - How much should be set aside from each sale as a tax reserve? (%)
+
+        4. DEDUCTIBLE EXPENSES FOR KOGIS VISIONS:
+           - List every tool and expense we're using and its deductibility:
+             Shopify, domains, Anthropic API, Canva, Klaviyo, DSers, etc.
+           - Estimate total annual deductible expenses
+           - How do these reduce the tax bill?
+
+        5. BOOKKEEPING SETUP:
+           - What records must be kept by Israeli law?
+           - Recommended free/cheap bookkeeping tool for this business
+           - How to document USD income in NIS (Bank of Israel rate — where to find it)
+           - How to organize expense receipts
+
+        6. REPORTING CALENDAR:
+           - List every tax deadline for Year 1
+           - What forms to file and when
+           - What happens if we miss a deadline
+
+        7. FIRST YEAR ACTION PLAN:
+           - Exact steps to take THIS WEEK before launching
+           - Exact steps to take at end of each month
+           - Exact steps to take at year end
+
+        Be specific with Israeli law references. Give exact shekel amounts.
+        This is the foundation — if we get this wrong from day 1, it compounds.
+        """,
+        expected_output="""
+        Complete Israeli tax setup plan:
+        - Business registration recommendation (structure + steps)
+        - VAT analysis and threshold monitoring plan
+        - Year 1 income tax and NI projections (conservative + optimistic, in NIS)
+        - Tax reserve percentage recommendation
+        - Full deductible expenses list with amounts
+        - Bookkeeping setup instructions
+        - Complete reporting calendar with deadlines
+        - This-week action checklist
+        """,
+        agent=accountant,
+        context=[financials],
+    )
+
+    # ── TASK 11: CEO makes the final call ─────────────────────────────────────
     ceo_decision = Task(
         description="""
         You have received full reports from all 7 directors on the 3 product candidates.
@@ -484,7 +555,7 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         - Specific instructions to each of the 7 directors
         """,
         agent=ceo,
-        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review],
+        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting],
     )
 
-    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, ceo_decision]
+    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting, ceo_decision]
