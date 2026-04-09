@@ -7,6 +7,7 @@ from .finance_director import create_finance_director
 from .operations_director import create_operations_director
 from .tech_director import create_tech_director
 from .rd_director import create_rd_director
+from .legal_director import create_legal_director
 
 __all__ = [
     "create_ceo",
@@ -18,4 +19,5 @@ __all__ = [
     "create_operations_director",
     "create_tech_director",
     "create_rd_director",
+    "create_legal_director",
 ]

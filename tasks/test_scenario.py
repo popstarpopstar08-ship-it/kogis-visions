@@ -1,6 +1,6 @@
 from crewai import Task
 
-def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, operations, tech, rd):
+def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, operations, tech, rd, legal):
     """
     TEST SCENARIO: First Monthly Cycle — Find & Validate Top 3 Products to Launch
 
@@ -366,7 +366,81 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         context=[scan, validate],
     )
 
-    # ── TASK 9: CEO makes the final call ─────────────────────────────────────
+    # ── TASK 9: Legal Director reviews everything before CEO ─────────────────
+    legal_review = Task(
+        description="""
+        You are the last gate before the CEO makes the final launch decision.
+        Review ALL reports from every director for the 3 products.
+
+        For EACH of the 3 products, perform a full legal audit:
+
+        1. TRADEMARK CLEARANCE:
+           - Is the brand name (ScalpBliss, LumaVue, AuraGlow) clear of trademark conflicts?
+           - Check: USPTO classes 3, 10, 11, 21, 35, 44
+           - Check: common law conflicts (well-known brands using similar names)
+           - Verdict: CLEAR / CONFLICT FOUND / NEEDS MANUAL SEARCH
+
+        2. PRODUCT COMPLIANCE:
+           - Does this product require FCC certification? (electronic/RF devices)
+           - Does this product require FDA classification? (health/wellness/medical)
+           - Does this product require CPSC registration? (consumer product safety)
+           - Does this product require CE marking for EU sales?
+           - Verdict per product: COMPLIANT / CONDITIONAL / BLOCKED
+
+        3. MARKETING CLAIMS AUDIT:
+           - Review all ad copy, landing page copy, and email copy proposed by Marketing and Sales
+           - Flag any claim that violates FTC guidelines
+           - Flag any health claim that could trigger FDA enforcement
+           - Flag any pricing claim that is not legally defensible
+           - Provide the corrected version of any flagged claim
+
+        4. REQUIRED LEGAL DOCUMENTS:
+           - What pages must be live on each store before launch?
+           - Privacy Policy: GDPR + CCPA compliant?
+           - Terms of Service: limitation of liability, dispute resolution included?
+           - Refund Policy: meets EU 14-day minimum, AU consumer guarantees?
+           - Health Disclaimer: required for ScalpBliss?
+           - FCC Disclaimer: required for LumaVue?
+
+        5. BUSINESS STRUCTURE:
+           - Should Kogis Visions form an LLC before first sale?
+           - Which state? What is the cost and timeline?
+           - Is product liability insurance required immediately?
+
+        6. TAX COMPLIANCE:
+           - Sales tax: what are the nexus obligations from Day 1?
+           - VAT: at what revenue point does EU VAT registration trigger?
+           - What Shopify tax settings must be configured before launch?
+
+        7. PLATFORM TERMS COMPLIANCE:
+           - Does each product comply with Shopify's Acceptable Use Policy?
+           - Does the marketing comply with Meta, Google, and TikTok ad policies?
+           - Are there any restricted categories that need special approval?
+
+        8. FINAL LEGAL VERDICT per product:
+           - CLEARED FOR LAUNCH — no legal blockers
+           - CONDITIONAL — specific legal items must be resolved first (list them)
+           - BLOCKED — legal risk too high, do not launch without resolution
+
+        Be specific. Name the law. Name the risk. Provide the exact solution.
+        This report goes directly to the CEO as the final input before launch authorization.
+        """,
+        expected_output="""
+        Full legal audit for all 3 products:
+        - Trademark clearance verdict per product
+        - Compliance status (FCC, FDA, CPSC, CE) per product
+        - Marketing claims audit with flagged copy and corrected versions
+        - Required legal documents checklist per store
+        - Business structure recommendation
+        - Tax compliance setup instructions
+        - Platform terms compliance check
+        - Final legal verdict per product: CLEARED / CONDITIONAL / BLOCKED
+        """,
+        agent=legal,
+        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input],
+    )
+
+    # ── TASK 10: CEO makes the final call ─────────────────────────────────────
     ceo_decision = Task(
         description="""
         You have received full reports from all 7 directors on the 3 product candidates.
@@ -410,7 +484,7 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         - Specific instructions to each of the 7 directors
         """,
         agent=ceo,
-        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input],
+        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review],
     )
 
-    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, ceo_decision]
+    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, ceo_decision]

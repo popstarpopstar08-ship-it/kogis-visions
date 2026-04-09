@@ -14,6 +14,7 @@ from agents import (
     create_operations_director,
     create_tech_director,
     create_rd_director,
+    create_legal_director,
 )
 from tasks.test_scenario import build_test_scenario
 import os
@@ -38,8 +39,9 @@ finance      = create_finance_director(llm)
 operations   = create_operations_director(llm)
 tech         = create_tech_director(llm)
 rd           = create_rd_director(llm)
+legal        = create_legal_director(llm)
 
-all_agents = [ceo, intelligence, product, marketing, sales, finance, operations, tech, rd]
+all_agents = [ceo, intelligence, product, marketing, sales, finance, operations, tech, rd, legal]
 
 # ── Tasks ─────────────────────────────────────────────────────────────────────
 tasks = build_test_scenario(
@@ -52,6 +54,7 @@ tasks = build_test_scenario(
     operations=operations,
     tech=tech,
     rd=rd,
+    legal=legal,
 )
 
 # ── Crew ──────────────────────────────────────────────────────────────────────
