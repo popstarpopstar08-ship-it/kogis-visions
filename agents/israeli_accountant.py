@@ -251,6 +251,61 @@ RISK 10 — NOT PLANNING FOR TAX BILL AT YEAR END
   Solution: 25-30% of net profit reserved in a separate account at all times
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOGGING PROTOCOL — MANDATORY FOR EVERY STEP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You MUST log every single step you take or recommend using this exact format.
+No step is executed without being logged AND approved by both you and the Legal Director.
+
+STEP LOG FORMAT (write this for every action):
+┌─────────────────────────────────────────────────────┐
+│ STEP LOG ENTRY                                      │
+│ Step ID    : [ACCT-001, ACCT-002, etc.]             │
+│ Timestamp  : [current date/time]                    │
+│ Step Name  : [short name]                           │
+│ Description: [what is being done and why]           │
+│ Initiated by: Israeli CPA                           │
+│ Tax Impact : [how this affects tax position]        │
+│ Risk Level : LOW / MEDIUM / HIGH                    │
+│ CPA Verdict: APPROVED / CONDITIONAL / REJECTED      │
+│ CPA Notes  : [detailed reasoning]                   │
+│ Legal Check: REQUIRED → sending to Legal Director   │
+│ Joint Status: PENDING LEGAL APPROVAL                │
+└─────────────────────────────────────────────────────┘
+
+STEPS THAT REQUIRE JOINT APPROVAL (both CPA + Legal must approve):
+1. Business registration (פתיחת תיק עוסק)
+2. VAT registration (רישום מע"מ)
+3. Choosing business structure (עוסק פטור / מורשה / חברה)
+4. Opening bank accounts
+5. Any contract or supplier agreement
+6. Any new revenue stream or market entry
+7. Any expense above ₪5,000
+8. Any change to pricing or product that affects tax classification
+9. Any international payment processor setup
+10. Any action that has legal AND tax implications simultaneously
+
+CROSS-CHECK PROTOCOL WITH LEGAL DIRECTOR:
+Before approving any step, you ask the Legal Director:
+"From a legal perspective, does this step: [description] create any compliance
+risk, liability exposure, or contractual obligation that affects the company's
+future? Please confirm APPROVED / CONDITIONAL / REJECTED with reasoning."
+
+You do NOT mark a step as APPROVED until Legal Director confirms.
+You DO mark it CONDITIONAL if Legal has reservations but it can proceed with modifications.
+You BLOCK execution if either director says REJECTED.
+
+JOINT APPROVAL STATEMENT (required on every approved step):
+"This step has been reviewed by:
+- Israeli CPA: [verdict] — [reason]
+- Legal Director: [verdict] — [reason]
+JOINT DECISION: [APPROVED/CONDITIONAL/REJECTED]
+BENEFITS TO COMPANY: [specific benefit]
+FUTURE RISKS IDENTIFIED: [none / or list]
+EXECUTED: [YES/NO/PENDING CONDITIONS]"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 MONTHLY REPORT TO CEO (in NIS and USD)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - Total revenue (USD → NIS at Bank of Israel rate)
@@ -261,6 +316,7 @@ MONTHLY REPORT TO CEO (in NIS and USD)
 - VAT report status (if registered as עוסק מורשה)
 - Any thresholds approaching (₪120K VAT, advance payment triggers)
 - Action items for the month
+- Decision log summary: steps approved, conditional, rejected this month
 
 IMMEDIATE ALERTS TO CEO:
 - Revenue approaching ₪120,000 → VAT registration required
@@ -268,6 +324,7 @@ IMMEDIATE ALERTS TO CEO:
 - Annual report deadline approaching
 - Any correspondence from רשות המסים or ביטוח לאומי
 - Foreign account balance approaching $10,000
+- Any step REJECTED by joint approval → immediate CEO notification
         """,
         verbose=True,
         allow_delegation=False,

@@ -511,7 +511,87 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         context=[financials],
     )
 
-    # ── TASK 11: CEO makes the final call ─────────────────────────────────────
+    # ── TASK 11: Joint CPA + Legal Approval Log ──────────────────────────────
+    joint_approval = Task(
+        description="""
+        You are the Israeli CPA and you are now running the JOINT APPROVAL PROTOCOL
+        together with the Legal Director.
+
+        Review every single step and decision made across ALL director reports.
+        For each step, produce a formal log entry in this exact format:
+
+        ┌─────────────────────────────────────────────────────┐
+        │ STEP LOG ENTRY                                      │
+        │ Step ID    : [ACCT-001 / ACCT-002 / etc.]          │
+        │ Timestamp  : [today's date]                         │
+        │ Step Name  : [short name of the action]             │
+        │ Description: [what is being done]                   │
+        │ Initiated by: [which director proposed this]        │
+        │ Tax Impact : [how this affects Israeli tax]         │
+        │ Legal Impact: [any legal obligation or risk]        │
+        │ Risk Level : LOW / MEDIUM / HIGH                    │
+        │ CPA Verdict: APPROVED / CONDITIONAL / REJECTED      │
+        │ CPA Notes  : [tax reasoning]                        │
+        │ Legal Verdict: APPROVED / CONDITIONAL / REJECTED    │
+        │ Legal Notes: [legal reasoning]                      │
+        │ Joint Status: APPROVED / CONDITIONAL / REJECTED     │
+        │ Benefits   : [specific benefit to company]          │
+        │ Future Risks: [none OR specific risks identified]   │
+        │ Execute    : YES / NO / PENDING CONDITIONS          │
+        └─────────────────────────────────────────────────────┘
+
+        Steps to log and approve (minimum — add any others you identify):
+
+        STEP 1: Business registration as עוסק פטור
+        STEP 2: Opening a business bank account
+        STEP 3: Setting up Shopify store(s)
+        STEP 4: Connecting DSers to AliExpress suppliers
+        STEP 5: Setting up Stripe/Shopify Payments to receive USD
+        STEP 6: Publishing ScalpBliss store with pricing ($34.97)
+        STEP 7: Publishing LumaVue store with pricing ($119.97 bundle)
+        STEP 8: Publishing AuraGlow store with pricing ($29.97)
+        STEP 9: Setting up Klaviyo email marketing
+        STEP 10: Starting organic TikTok/Instagram content
+        STEP 11: Setting up Meta Pixel on all stores
+        STEP 12: Connecting Google Analytics to all stores
+        STEP 13: Tax reserve setup (25-30% of profits held)
+        STEP 14: Foreign account reporting obligation (PayPal/Stripe)
+        STEP 15: Publishing Privacy Policy and Terms of Service
+        STEP 16: FCC certification verification for LumaVue
+        STEP 17: FDA compliance confirmation for ScalpBliss marketing
+        STEP 18: Reinvesting first profits into paid ads
+
+        After logging all steps, produce:
+
+        JOINT APPROVAL SUMMARY:
+        - Total steps reviewed: [X]
+        - Approved: [X] steps
+        - Conditional: [X] steps (list conditions)
+        - Rejected: [X] steps (list and explain)
+        - Steps that must be completed BEFORE first sale: [list]
+        - Steps that can happen AFTER first sale: [list]
+        - Combined CPA + Legal sign-off statement for the CEO
+
+        FINAL JOINT STATEMENT TO CEO:
+        "We, the Israeli CPA and Legal Director, have reviewed all [X] execution steps
+        for Kogis Visions launch. We jointly confirm that:
+        [X] steps are approved with no conditions.
+        [X] steps are approved with conditions (detailed above).
+        [X] steps are blocked until resolved.
+        The company [IS / IS NOT] cleared to begin operations."
+        """,
+        expected_output="""
+        Complete decision log with formal entry for every step (minimum 18 entries).
+        Each entry includes: Step ID, timestamp, description, tax impact, legal impact,
+        risk level, CPA verdict, legal verdict, joint status, benefits, future risks, execute Y/N.
+        Joint approval summary with totals.
+        Final joint sign-off statement to CEO.
+        """,
+        agent=accountant,
+        context=[israeli_accounting, legal_review, validate, campaigns, tech_plan, financials],
+    )
+
+    # ── TASK 12: CEO makes the final call ─────────────────────────────────────
     ceo_decision = Task(
         description="""
         You have received full reports from all 7 directors on the 3 product candidates.
@@ -555,7 +635,7 @@ def build_test_scenario(ceo, intelligence, product, marketing, sales, finance, o
         - Specific instructions to each of the 7 directors
         """,
         agent=ceo,
-        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting],
+        context=[scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting, joint_approval],
     )
 
-    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting, ceo_decision]
+    return [scan, validate, tech_plan, campaigns, funnels, financials, fulfillment, rd_input, legal_review, israeli_accounting, joint_approval, ceo_decision]

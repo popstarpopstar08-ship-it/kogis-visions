@@ -18,6 +18,7 @@ from agents import (
     create_israeli_accountant,
 )
 from tasks.test_scenario import build_test_scenario
+from utils.logger import print_log_summary
 import os
 from dotenv import load_dotenv
 
@@ -85,3 +86,6 @@ if __name__ == "__main__":
     with open("reports/test_run_output.txt", "w", encoding="utf-8") as f:
         f.write(str(result))
     print("\n Full report saved to: reports/test_run_output.txt")
+
+    # Print decision log summary
+    print_log_summary()
