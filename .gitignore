@@ -1,0 +1,19 @@
+# Environment variables — NEVER commit API keys
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# CrewAI memory
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
