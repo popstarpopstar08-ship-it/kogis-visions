@@ -25,10 +25,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ── LLM ──────────────────────────────────────────────────────────────────────
+# Using claude-haiku for workers (fast, cheap, high rate limits)
+# Upgrade to claude-opus-4-6 when you have a paid API tier
 llm = LLM(
-    model="anthropic/claude-opus-4-6",
+    model="anthropic/claude-haiku-4-5-20251001",
     api_key=os.environ["ANTHROPIC_API_KEY"],
     temperature=0.2,
+    max_retries=5,
 )
 
 # ── Agents ────────────────────────────────────────────────────────────────────
